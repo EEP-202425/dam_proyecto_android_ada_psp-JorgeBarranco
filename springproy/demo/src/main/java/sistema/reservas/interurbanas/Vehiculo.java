@@ -1,5 +1,17 @@
 package sistema.reservas.interurbanas;
 
-public class Vehiculo {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
+public class Vehiculo {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+	
+	private String matricula;
+    private String tipo;
+    private int capacidad;
 }
