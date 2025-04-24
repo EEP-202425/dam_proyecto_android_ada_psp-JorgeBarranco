@@ -10,8 +10,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "usuarios")
 public class Usuario {
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +27,11 @@ public class Usuario {
 
 	    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	    private List<Reserva> reservas;
+	    
+	    public Usuario(Long id, String nombre, String email, String password) {
+	    	this.id = id;
+	    	this.nombre = nombre;
+	    	this.email = email;
+	    	this.password = password;
+	    }
 }
