@@ -1,6 +1,5 @@
 package sistema.reservas.interurbanas;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -24,5 +23,10 @@ public class Ruta {
 	@OneToMany(mappedBy = "ruta")
     private List<Reserva> reservas;
 	
-	
+	public Ruta(Long id, String ciudadOrigen, String ciudadDestino, int km) {
+		this.id = id;
+		this.ciudadOrigen = ciudadOrigen;
+		this.ciudadDestino = ciudadDestino;
+		this.km = km;
+	}
 }
