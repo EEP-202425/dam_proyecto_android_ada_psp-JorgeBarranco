@@ -29,4 +29,46 @@ public class Ruta {
 		this.ciudadDestino = ciudadDestino;
 		this.km = km;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getCiudadOrigen() {
+		return ciudadOrigen;
+	}
+
+	public void setCiudadOrigen(String ciudadOrigen) {
+		this.ciudadOrigen = ciudadOrigen;
+	}
+
+	public String getCiudadDestino() {
+		return ciudadDestino;
+	}
+
+	public void setCiudadDestino(String ciudadDestino) {
+		this.ciudadDestino = ciudadDestino;
+	}
+
+	public int getKm() {
+		return km;
+	}
+
+	public void setKm(int km) {
+		this.km = km;
+	}
+
+	public List<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(List<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+	
+	
 }
