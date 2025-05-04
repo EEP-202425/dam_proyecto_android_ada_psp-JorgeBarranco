@@ -16,7 +16,7 @@ import repository.ReservaRepository;
 import sistema.reservas.interurbanas.Reserva;
 
 @RestController
-@RequestMapping("reservas")
+@RequestMapping("/reservas")
 public class ReservaController {
 
 	private final ReservaRepository reservaRepo;

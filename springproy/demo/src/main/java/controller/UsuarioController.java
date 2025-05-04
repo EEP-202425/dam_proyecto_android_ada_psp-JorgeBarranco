@@ -11,7 +11,7 @@ import repository.UsuarioRepository;
 import sistema.reservas.interurbanas.Usuario;
 
 @RestController
-@RequestMapping("usuarios")
+@RequestMapping("/usuarios")
 
 public class UsuarioController {
 	private final UsuarioRepository usuarioRepository;
