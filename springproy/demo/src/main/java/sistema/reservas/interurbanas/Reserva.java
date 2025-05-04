@@ -63,7 +63,4 @@ public class Reserva {
 	public void setAsiento(int asiento) {
 		this.asiento = asiento;
 	}
-
-    
-    
 }
