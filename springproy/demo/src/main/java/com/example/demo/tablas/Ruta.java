@@ -1,4 +1,4 @@
-package sistema.reservas.interurbanas;
+package com.example.demo.tablas;
 
 import java.util.List;
 

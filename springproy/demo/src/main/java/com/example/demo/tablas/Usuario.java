@@ -1,4 +1,4 @@
-package sistema.reservas.interurbanas;
+package com.example.demo.tablas;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,11 +23,13 @@ public class Usuario {
 	    private String nombre;
 	    private String email;
 	    
-	    @JsonIgnore
 	    private String password;
-
+	    
+	    @JsonIgnore
 	    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	    private List<Reserva> reservas;
+	    
+	    public Usuario() {}
 	    
 	    public Usuario(Long id, String nombre, String email, String password) {
 	    	this.id = id;

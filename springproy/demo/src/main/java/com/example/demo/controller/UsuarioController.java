@@ -1,4 +1,4 @@
-package controller;
+package com.example.demo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import repository.UsuarioRepository;
-import sistema.reservas.interurbanas.Usuario;
+import com.example.demo.repository.UsuarioRepository;
+import com.example.demo.tablas.Usuario;
 
 @RestController
 @RequestMapping("/usuarios")
