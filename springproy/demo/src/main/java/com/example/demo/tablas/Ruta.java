@@ -2,6 +2,8 @@ package com.example.demo.tablas;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,16 +20,15 @@ public class Ruta {
 	
 	private String ciudadOrigen;
 	private String ciudadDestino;
-	private int km;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "ruta")
     private List<Reserva> reservas;
 	
-	public Ruta(Long id, String ciudadOrigen, String ciudadDestino, int km) {
+	public Ruta(Long id, String ciudadOrigen, String ciudadDestino) {
 		this.id = id;
 		this.ciudadOrigen = ciudadOrigen;
 		this.ciudadDestino = ciudadDestino;
-		this.km = km;
 	}
 
 	public Long getId() {
@@ -52,14 +53,6 @@ public class Ruta {
 
 	public void setCiudadDestino(String ciudadDestino) {
 		this.ciudadDestino = ciudadDestino;
-	}
-
-	public int getKm() {
-		return km;
-	}
-
-	public void setKm(int km) {
-		this.km = km;
 	}
 
 	public List<Reserva> getReservas() {

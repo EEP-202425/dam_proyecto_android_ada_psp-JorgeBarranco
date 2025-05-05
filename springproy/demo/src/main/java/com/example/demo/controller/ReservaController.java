@@ -13,16 +13,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.repository.ReservaRepository;
+import com.example.demo.repository.RutaRepository;
+import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.tablas.Reserva;
+import com.example.demo.tablas.Ruta;
+import com.example.demo.tablas.Usuario;
 
 @RestController
 @RequestMapping("/reservas")
 public class ReservaController {
 
 	private final ReservaRepository reservaRepository;
+	private final UsuarioRepository usuarioRepository;
+	private final RutaRepository rutaRepository;
 	
-    public ReservaController(ReservaRepository reservaRepo) {
+    public ReservaController(ReservaRepository reservaRepo, UsuarioRepository usuarioRepository, RutaRepository rutaRepository) {
         this.reservaRepository = reservaRepo;
+        this.usuarioRepository = usuarioRepository;
+        this.rutaRepository = rutaRepository;
     }
 
     @GetMapping
@@ -32,7 +40,13 @@ public class ReservaController {
 
     @PostMapping
     public ResponseEntity<Reserva> crear(@RequestBody Reserva reserva) {
-        Reserva nuevaReserva = reservaRepository.save(reserva);
+    	
+    	Usuario buscarUsuario = usuarioRepository.findByNombre(reserva.getUsuario().getNombre());
+    	Ruta rutaCreada = rutaRepository.save(new Ruta(null, reserva.getRuta().getCiudadOrigen(), reserva.getRuta().getCiudadDestino()));
+    	
+    	Reserva usuarioCreaReserva = new Reserva(null, buscarUsuario, rutaCreada, reserva.getFechaHora(), reserva.getAsiento());
+    	
+        Reserva nuevaReserva = reservaRepository.save(usuarioCreaReserva);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaReserva);
     }
 

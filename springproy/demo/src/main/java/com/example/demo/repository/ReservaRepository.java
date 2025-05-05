@@ -10,4 +10,6 @@ import com.example.demo.tablas.Reserva;
 
 public interface ReservaRepository extends CrudRepository<Reserva, Long>, PagingAndSortingRepository<Reserva, Long>{
 //	List<Reserva> findByUsuarioId(Long usuarioId);
+	
+	
 }

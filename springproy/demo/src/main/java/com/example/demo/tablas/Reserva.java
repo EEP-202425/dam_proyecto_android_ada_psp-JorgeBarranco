@@ -20,7 +20,7 @@ public class Reserva {
 	@ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
     private Ruta ruta;
 	
 	private LocalDateTime fechaHora;
