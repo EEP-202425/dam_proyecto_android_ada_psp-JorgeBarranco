@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.repository.ReservaRepository;
 import com.example.demo.repository.RutaRepository;
 import com.example.demo.repository.UsuarioRepository;
+import com.example.demo.repository.VehiculoRepository;
 import com.example.demo.tablas.Reserva;
 import com.example.demo.tablas.Ruta;
 import com.example.demo.tablas.Usuario;
+import com.example.demo.tablas.Vehiculo;
 
 @RestController
 @RequestMapping("/reservas")
@@ -26,11 +28,14 @@ public class ReservaController {
 	private final ReservaRepository reservaRepository;
 	private final UsuarioRepository usuarioRepository;
 	private final RutaRepository rutaRepository;
+	private final VehiculoRepository vehiculoRepository;
 	
-    public ReservaController(ReservaRepository reservaRepo, UsuarioRepository usuarioRepository, RutaRepository rutaRepository) {
+    public ReservaController(ReservaRepository reservaRepo, UsuarioRepository usuarioRepository, RutaRepository rutaRepository,
+    		VehiculoRepository vehiculoRepository) {
         this.reservaRepository = reservaRepo;
         this.usuarioRepository = usuarioRepository;
         this.rutaRepository = rutaRepository;
+        this.vehiculoRepository = vehiculoRepository;
     }
 
     @GetMapping
@@ -43,8 +48,12 @@ public class ReservaController {
     	
     	Usuario buscarUsuario = usuarioRepository.findByNombre(reserva.getUsuario().getNombre());
     	Ruta rutaCreada = rutaRepository.save(new Ruta(null, reserva.getRuta().getCiudadOrigen(), reserva.getRuta().getCiudadDestino()));
+    	Vehiculo vehiculoElegido = vehiculoRepository.save(new Vehiculo(null, reserva.getVehiculo().getMatricula(), reserva.getVehiculo().getTipo(), reserva.getVehiculo()
+    			.getCapacidad()));
     	
-    	Reserva usuarioCreaReserva = new Reserva(null, buscarUsuario, rutaCreada, reserva.getFechaHora(), reserva.getAsiento());
+    	
+    	Reserva usuarioCreaReserva = new Reserva(null, buscarUsuario, rutaCreada, vehiculoElegido, reserva.getFechaHora(), reserva.getAsiento());
+    	
     	
         Reserva nuevaReserva = reservaRepository.save(usuarioCreaReserva);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaReserva);
