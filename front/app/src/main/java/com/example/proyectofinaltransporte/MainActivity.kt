@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.proyectofinaltransporte.pantallas.PantallaLoging
 import com.example.proyectofinaltransporte.ui.theme.ProyectoFinalTransporteTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,28 +21,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProyectoFinalTransporteTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    PantallaLoging(
+                        modifier = Modifier.padding(innerPadding),
+                        botonLog = {
+                            println("Botón Guardar presionado")
+                        }
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ProyectoFinalTransporteTheme {
-        Greeting("Android")
     }
 }
