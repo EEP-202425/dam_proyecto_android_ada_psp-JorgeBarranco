@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -30,6 +31,8 @@ class MainActivity : ComponentActivity() {
             ProyectoFinalTransporteTheme {
                 val navController = rememberNavController()
                 val reservas = remember { mutableStateListOf<String>() }
+
+                var vm: ViewModel
 
                 NavHost(navController, startDestination = "login") {
                     composable("login") {
