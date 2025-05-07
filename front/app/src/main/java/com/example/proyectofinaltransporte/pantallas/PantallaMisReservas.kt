@@ -5,26 +5,22 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
 
-@Preview(showBackground = true)
-@Composable
-fun PantallaMisReservasPreview() {
-    PantallaMisReservas(
-        reservas = listOf(
-            "Uber - Madrid a Barcelona - 12/06/2025 - Asiento A1",
-            "Tren - Sevilla a Valencia - 15/06/2025 - Asiento B3"
-        )
-    )
-}
 
 @Composable
-fun PantallaMisReservas(reservas: List<String>) {
+fun PantallaMisReservas(
+    reservas: List<String>,
+    navController: NavHostController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,6 +32,12 @@ fun PantallaMisReservas(reservas: List<String>) {
         reservas.forEach { reserva ->
             Text("- $reserva")
             Spacer(modifier = Modifier.height(8.dp))
+        }
+        Button( onClick = {
+            navController.popBackStack(route = "reserva", inclusive = false)
+            }
+        ) {
+            Text(text = "Hacer otra reserva")
         }
     }
 }
