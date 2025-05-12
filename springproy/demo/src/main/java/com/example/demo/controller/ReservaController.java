@@ -46,13 +46,12 @@ public class ReservaController {
     @PostMapping
     public ResponseEntity<Reserva> crear(@RequestBody Reserva reserva) {
     	
-    	Usuario buscarUsuario = usuarioRepository.findByNombre(reserva.getUsuario().getNombre());
     	Ruta rutaCreada = rutaRepository.save(new Ruta(null, reserva.getRuta().getCiudadOrigen(), reserva.getRuta().getCiudadDestino()));
     	Vehiculo vehiculoElegido = vehiculoRepository.save(new Vehiculo(null, reserva.getVehiculo().getMatricula(), reserva.getVehiculo().getTipo(), reserva.getVehiculo()
     			.getCapacidad()));
     	
     	
-    	Reserva usuarioCreaReserva = new Reserva(null, buscarUsuario, rutaCreada, vehiculoElegido, reserva.getFechaHora(), reserva.getAsiento());
+    	Reserva usuarioCreaReserva = new Reserva(null, rutaCreada, vehiculoElegido, reserva.getFechaHora(), reserva.getAsiento());
     	
     	
         Reserva nuevaReserva = reservaRepository.save(usuarioCreaReserva);

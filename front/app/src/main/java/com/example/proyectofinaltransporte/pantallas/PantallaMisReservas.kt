@@ -14,13 +14,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
-
+import androidx.navigation.compose.rememberNavController
+import com.example.proyectofinaltransporte.API.ReservaViewModel
 
 @Composable
 fun PantallaMisReservas(
-    reservas: List<String>,
+    reservaViewModel: ReservaViewModel,
     navController: NavHostController
 ) {
+    val reservas = reservaViewModel.getReservas()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,10 +32,7 @@ fun PantallaMisReservas(
         Text("Mis Reservas", style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.height(16.dp))
 
-        reservas.forEach { reserva ->
-            Text("- $reserva")
-            Spacer(modifier = Modifier.height(8.dp))
-        }
+
         Button( onClick = {
             navController.popBackStack(route = "reserva", inclusive = false)
             }

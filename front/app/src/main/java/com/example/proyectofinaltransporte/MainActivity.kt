@@ -1,6 +1,7 @@
 package com.example.proyectofinaltransporte
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,9 +15,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.proyectofinaltransporte.API.ReservaViewModel
 import com.example.proyectofinaltransporte.pantallas.PantallaConfirmacion
 import com.example.proyectofinaltransporte.pantallas.PantallaLoging
 import com.example.proyectofinaltransporte.pantallas.PantallaMisReservas
@@ -30,9 +33,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProyectoFinalTransporteTheme {
                 val navController = rememberNavController()
-                val reservas = remember { mutableStateListOf<String>() }
+                val reservaViewModel: ReservaViewModel = viewModel()
 
-                var vm: ViewModel
 
                 NavHost(navController, startDestination = "login") {
                     composable("login") {
@@ -47,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     composable("reserva") {
                         PantallaReserva(
                             onReservaClick = { reserva ->
-                                reservas.add(reserva)
+                                reservaViewModel.crearReserva(reserva)
                                 navController.navigate("confirmacion")
                             }
                         )
@@ -63,8 +65,8 @@ class MainActivity : ComponentActivity() {
 
                     composable("mis_reservas") {
                         PantallaMisReservas(
-                            reservas,
-                            navController
+                            reservaViewModel = reservaViewModel,
+                            navController = navController
                         )
                     }
                 }

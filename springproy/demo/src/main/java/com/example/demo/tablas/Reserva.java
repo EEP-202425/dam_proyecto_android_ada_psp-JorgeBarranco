@@ -21,17 +21,13 @@ public class Reserva {
     private Vehiculo vehiculo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    private Usuario usuario;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
     private Ruta ruta;
 	
 	private LocalDateTime fechaHora;
     private int asiento;
     
-    public Reserva(Long id, Usuario usuario, Ruta ruta, Vehiculo vehiculo, LocalDateTime fechaHora, int asiento) {
+    public Reserva(Long id, Ruta ruta, Vehiculo vehiculo, LocalDateTime fechaHora, int asiento) {
     	this.id = id;
-    	this.usuario = usuario;
     	this.ruta = ruta;
     	this.vehiculo = vehiculo;
     	this.fechaHora = fechaHora;
@@ -44,12 +40,7 @@ public class Reserva {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+	
 	public Ruta getRuta() {
 		return ruta;
 	}

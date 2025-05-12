@@ -1,6 +1,5 @@
 package com.example.demo.tablas;
 
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,10 +23,6 @@ public class Usuario {
 	    private String email;
 	    
 	    private String password;
-	    
-	    @JsonIgnore
-	    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-	    private List<Reserva> reservas;
 	    
 	    public Usuario() {}
 	    
@@ -68,14 +63,6 @@ public class Usuario {
 
 		public void setPassword(String password) {
 			this.password = password;
-		}
-
-		public List<Reserva> getReservas() {
-			return reservas;
-		}
-
-		public void setReservas(List<Reserva> reservas) {
-			this.reservas = reservas;
 		}
 	    
 	    

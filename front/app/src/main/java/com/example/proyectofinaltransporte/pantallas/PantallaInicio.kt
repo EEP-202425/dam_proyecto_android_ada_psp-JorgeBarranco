@@ -1,5 +1,6 @@
 package com.example.proyectofinaltransporte.pantallas
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -23,44 +25,46 @@ fun PantallaLoging(
     modifier: Modifier,
     botonLog: () -> Unit
 ) {
-    var nombre by  remember { mutableStateOf(" ") }
-    var email by  remember { mutableStateOf(" ") }
-    var password by  remember { mutableStateOf(" ") }
+    var nombre by  remember { mutableStateOf("") }
+    var email by  remember { mutableStateOf("") }
+    var password by  remember { mutableStateOf("") }
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    )
-    {
+    ) {
         Text(text = "INICIE SESIÓN")
 
         OutlinedTextField(
             value = nombre,
-            onValueChange = {nombre = it},
-            label = {Text("Nombre: ") },
+            onValueChange = { nombre = it },
+            label = { Text("Nombre: ") },
             modifier = Modifier.width(300.dp)
         )
 
         OutlinedTextField(
             value = email,
-            onValueChange = {email = it},
-            label = {Text("Email: ") },
+            onValueChange = { email = it },
+            label = { Text("Email: ") },
             modifier = Modifier.width(300.dp)
         )
 
         OutlinedTextField(
             value = password,
-            onValueChange = {password = it},
-            label = {Text("Contraseña: ") },
+            onValueChange = { password = it },
+            label = { Text("Contraseña: ") },
             modifier = Modifier.width(300.dp)
         )
 
         Spacer(Modifier.height(10.dp))
 
-        Button(onClick =
-        botonLog, modifier = Modifier.width(150.dp)) {
+        Button(
+            onClick = botonLog,
+            modifier = Modifier.width(150.dp)
+        ) {
             Text("Guardar")
         }
-
     }
-}
+    }

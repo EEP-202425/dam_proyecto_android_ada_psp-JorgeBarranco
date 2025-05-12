@@ -1,14 +1,15 @@
 package com.example.proyectofinaltransporte.network
 
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
-import java.time.LocalDateTime
+
+
 
 @Serializable
 class Reserva (
     val id : Long,
-    val fechaHora : LocalDate,
-    val asiento : Int,
+    @Contextual val fechaHora : LocalDate,
+    val asiento : String,
     val ruta : Ruta,
-    val usuario : Usuario
 )

@@ -5,8 +5,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.proyectofinaltransporte.network.Reserva
+import com.example.proyectofinaltransporte.network.Ruta
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -18,8 +23,10 @@ fun PantallaReservaPreview() {
 @Composable
 fun PantallaReserva(
     modifier: Modifier = Modifier,
-    onReservaClick: (String) -> Unit
+    onReservaClick: (Reserva) -> Unit
 ) {
+    val dateFormatter = remember { DateTimeFormatter.ofPattern("dd/MM/yyyy") }
+    val context = LocalContext.current
     val tiposVehiculo = listOf("Uber", "Tren", "Avión")
     var tipoSeleccionado by remember { mutableStateOf(tiposVehiculo[0]) }
     var expanded by remember { mutableStateOf(false) }
@@ -107,9 +114,19 @@ fun PantallaReserva(
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(onClick = {
-            val resumen =
-                "Reserva: $tipoSeleccionado - $ciudadOrigen a $ciudadDestino el $fechaSalida (Asiento $asiento)"
-            onReservaClick(resumen)
+            val fechaModificada = LocalDate.parse(fechaSalida, dateFormatter)
+            val rutaCreada = Ruta(
+                id = 0,
+                ciudadOrigen = ciudadOrigen,
+                ciudadDestino = ciudadDestino
+            )
+            val reserva = Reserva(
+                id = 0,
+                fechaHora = fechaModificada,
+                asiento = asiento,
+                ruta = rutaCreada
+                )
+                onReservaClick(reserva)
         }) {
             Text("Confirmar Reserva")
         }
