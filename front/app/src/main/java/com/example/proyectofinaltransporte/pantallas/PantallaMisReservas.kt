@@ -24,16 +24,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.proyectofinaltransporte.API.ReservaUiState
-import com.example.proyectofinaltransporte.API.ReservaViewModel
 import com.example.proyectofinaltransporte.network.Reserva
 
 @Composable
 fun PantallaMisReservas(
-    reservaViewModel: ReservaViewModel,
     navController: NavHostController
 ) {
-    val reservas = reservaViewModel.getReservas()
 
     Column(
         modifier = Modifier

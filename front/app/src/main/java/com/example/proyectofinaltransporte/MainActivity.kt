@@ -11,7 +11,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.proyectofinaltransporte.API.ReservaViewModel
 import com.example.proyectofinaltransporte.pantallas.PantallaConfirmacion
 import com.example.proyectofinaltransporte.pantallas.PantallaLoging
 import com.example.proyectofinaltransporte.pantallas.PantallaMisReservas
@@ -24,7 +23,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProyectoFinalTransporteTheme {
                 val navController = rememberNavController()
-                var reservaViewModel: ReservaViewModel = viewModel()
 
                 NavHost(navController, startDestination = "login") {
                     composable("login") {
@@ -54,7 +52,6 @@ class MainActivity : ComponentActivity() {
 
                     composable("mis_reservas") {
                         PantallaMisReservas(
-                            reservaViewModel = reservaViewModel,
                             navController = navController
                         )
                     }
