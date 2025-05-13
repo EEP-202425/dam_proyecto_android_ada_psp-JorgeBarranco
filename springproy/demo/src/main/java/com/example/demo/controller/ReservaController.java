@@ -1,6 +1,11 @@
 package com.example.demo.controller;
 
 
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,15 +50,22 @@ public class ReservaController {
 
     @PostMapping
     public ResponseEntity<Reserva> crear(@RequestBody Reserva reserva) {
-    	
-    	Ruta rutaCreada = rutaRepository.save(new Ruta(null, reserva.getRuta().getCiudadOrigen(), reserva.getRuta().getCiudadDestino()));
-    	Vehiculo vehiculoElegido = vehiculoRepository.save(new Vehiculo(null, reserva.getVehiculo().getMatricula(), reserva.getVehiculo().getTipo(), reserva.getVehiculo()
-    			.getCapacidad()));
-    	
-    	
-    	Reserva usuarioCreaReserva = new Reserva(null, rutaCreada, vehiculoElegido, reserva.getFechaHora(), reserva.getAsiento());
-    	
-    	
+        Ruta rutaCreada = null;
+        if (reserva.getRuta() != null) {
+            rutaCreada = rutaRepository.save(new Ruta(null, reserva.getRuta().getCiudadOrigen(), reserva.getRuta().getCiudadDestino()));
+        } else {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Vehiculo vehiculoElegido = null;
+        if (reserva.getVehiculo() != null) {
+            vehiculoElegido = vehiculoRepository.save(new Vehiculo(null, reserva.getVehiculo().getTipo()));
+        } else {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Reserva usuarioCreaReserva = new Reserva(null, rutaCreada, vehiculoElegido, reserva.getFechaHora(), reserva.getAsiento());
+
         Reserva nuevaReserva = reservaRepository.save(usuarioCreaReserva);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaReserva);
     }

@@ -21,9 +21,9 @@ public class Ruta {
 	private String ciudadOrigen;
 	private String ciudadDestino;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "ruta")
-    private List<Reserva> reservas;
+	public Ruta() {
+		
+	}
 	
 	public Ruta(Long id, String ciudadOrigen, String ciudadDestino) {
 		this.id = id;
@@ -55,13 +55,4 @@ public class Ruta {
 		this.ciudadDestino = ciudadDestino;
 	}
 
-	public List<Reserva> getReservas() {
-		return reservas;
-	}
-
-	public void setReservas(List<Reserva> reservas) {
-		this.reservas = reservas;
-	}
-	
-	
 }

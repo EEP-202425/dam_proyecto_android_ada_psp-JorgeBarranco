@@ -1,32 +1,25 @@
-package com.example.proyectofinaltransporte.pantallas
-
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import com.example.proyectofinaltransporte.network.Reserva
 import com.example.proyectofinaltransporte.network.Ruta
+import com.example.proyectofinaltransporte.API.ReservaApiService
+import com.example.proyectofinaltransporte.network.Vehiculo
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PantallaReservaPreview() {
-    PantallaReserva(onReservaClick = {})
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaReserva(
     modifier: Modifier = Modifier,
-    onReservaClick: (Reserva) -> Unit
+    onNavigateToConfirmacion: () -> Unit
 ) {
-    val dateFormatter = remember { DateTimeFormatter.ofPattern("dd/MM/yyyy") }
-    val context = LocalContext.current
     val tiposVehiculo = listOf("Uber", "Tren", "Avión")
     var tipoSeleccionado by remember { mutableStateOf(tiposVehiculo[0]) }
     var expanded by remember { mutableStateOf(false) }
@@ -36,6 +29,10 @@ fun PantallaReserva(
     var fechaSalida by remember { mutableStateOf("") }
     var asiento by remember { mutableStateOf("") }
 
+    var error by remember { mutableStateOf<String?>(null) }
+
+    val scope = rememberCoroutineScope()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -43,10 +40,11 @@ fun PantallaReserva(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Realizar Reserva")
+        Text(text = "Realizar Reserva", style = MaterialTheme.typography.headlineMedium)
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Dropdown para tipo de vehículo
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = !expanded }
@@ -56,9 +54,14 @@ fun PantallaReserva(
                 value = tipoSeleccionado,
                 onValueChange = {},
                 label = { Text("Tipo de Vehículo") },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                modifier = Modifier.menuAnchor().width(300.dp)
+                trailingIcon = {
+                    Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
+                },
+                modifier = Modifier
+                    .menuAnchor()
+                    .width(300.dp)
             )
+
             ExposedDropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
@@ -96,7 +99,7 @@ fun PantallaReserva(
         OutlinedTextField(
             value = fechaSalida,
             onValueChange = { fechaSalida = it },
-            label = { Text("Fecha de Salida") },
+            label = { Text("Fecha de Salida (dd/MM/yyyy)") },
             modifier = Modifier
                 .padding(top = 8.dp)
                 .width(300.dp)
@@ -114,22 +117,31 @@ fun PantallaReserva(
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(onClick = {
-            val fechaModificada = LocalDate.parse(fechaSalida, dateFormatter)
-            val rutaCreada = Ruta(
-                id = 0,
-                ciudadOrigen = ciudadOrigen,
-                ciudadDestino = ciudadDestino
-            )
-            val reserva = Reserva(
-                id = 0,
-                fechaHora = fechaModificada,
-                asiento = asiento,
-                ruta = rutaCreada
-                )
-                onReservaClick(reserva)
+            scope.launch {
+                try {
+                    val fecha = fechaSalida
+                    val ruta = Ruta(0, ciudadOrigen, ciudadDestino)
+                    val asientoParseado = asiento.toInt()
+                    val vehiculo = Vehiculo(0, tipoSeleccionado, ruta)
+                    val reserva = Reserva(0, fecha,asientoParseado,ruta, vehiculo)
+
+                    ReservaApiService.retrofitService.crearReserva(reserva)
+
+                    onNavigateToConfirmacion()
+                } catch (e: Exception) {
+                    error = "Error al crear reserva: ${e.localizedMessage}"
+                }
+            }
         }) {
             Text("Confirmar Reserva")
         }
+
+        error?.let {
+            Text(
+                text = it,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(top = 12.dp)
+            )
+        }
     }
 }
-

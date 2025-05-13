@@ -1,9 +1,12 @@
 package com.example.demo.tablas;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -13,15 +16,15 @@ public class Vehiculo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	private String matricula;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ruta_id", referencedColumnName = "id")
+	private Ruta ruta;
+	
     private String tipo;
-    private int capacidad;
     
-    public Vehiculo(Long id, String matricula, String tipo, int capacidad) {
+    public Vehiculo(Long id, String tipo) {
     	this.id = id;
-    	this.matricula = matricula;
     	this.tipo = tipo;
-    	this.capacidad = capacidad;
     }
 
 	public Long getId() {
@@ -32,28 +35,12 @@ public class Vehiculo {
 		this.id = id;
 	}
 
-	public String getMatricula() {
-		return matricula;
-	}
-
-	public void setMatricula(String matricula) {
-		this.matricula = matricula;
-	}
-
 	public String getTipo() {
 		return tipo;
 	}
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
-	}
-
-	public int getCapacidad() {
-		return capacidad;
-	}
-
-	public void setCapacidad(int capacidad) {
-		this.capacidad = capacidad;
 	}
     
     

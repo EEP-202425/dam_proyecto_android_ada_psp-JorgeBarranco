@@ -3,9 +3,8 @@ package com.example.proyectofinaltransporte.network
 import kotlinx.serialization.Serializable
 
 @Serializable
-class Vehiculo (
+data class Vehiculo (
     val id : Long,
-    val matricula : String,
     val tipo : String,
-    val capacidad : Int
+    val ruta: Ruta,
 )

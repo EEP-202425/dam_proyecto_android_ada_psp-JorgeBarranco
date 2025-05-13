@@ -13,13 +13,14 @@ import java.io.IOException
 
 sealed interface ReservaUiState {
     data class Success(val message: String) : ReservaUiState
-    object Error : ReservaUiState
+    data class Error(val message: String) : ReservaUiState
     object Loading : ReservaUiState
+    object Initial : ReservaUiState
 }
 
 class ReservaViewModel : ViewModel() {
 
-    var reservaUiState: ReservaUiState by mutableStateOf(ReservaUiState.Loading)
+    var reservaUiState: ReservaUiState by mutableStateOf(ReservaUiState.Initial)
         private set
 
     init {
@@ -33,9 +34,9 @@ class ReservaViewModel : ViewModel() {
                 val reservas = ReservaApiService.retrofitService.getReservas()
                 ReservaUiState.Success("Se cargaron ${reservas.size} reservas")
             } catch (e: IOException) {
-                ReservaUiState.Error
+                ReservaUiState.Error("Error de conexión: ${e.message}")
             } catch (e: HttpException) {
-                ReservaUiState.Error
+                ReservaUiState.Error("Error del servidor: ${e.message}")
             }
         }
     }
@@ -44,10 +45,14 @@ class ReservaViewModel : ViewModel() {
         viewModelScope.launch {
             reservaUiState = ReservaUiState.Loading
             try {
-                ReservaApiService.retrofitService.crearReserva(reserva)
+                val nuevaReserva = ReservaApiService.retrofitService.crearReserva(reserva)
                 reservaUiState = ReservaUiState.Success("Reserva creada con éxito")
+            } catch (e: IOException) {
+                reservaUiState = ReservaUiState.Error("Error de conexión: ${e.message}")
+            } catch (e: HttpException) {
+                reservaUiState = ReservaUiState.Error("Error del servidor: ${e.message}")
             } catch (e: Exception) {
-                reservaUiState = ReservaUiState.Error
+                reservaUiState = ReservaUiState.Error("Error desconocido: ${e.message}")
             }
         }
     }
@@ -59,7 +64,7 @@ class ReservaViewModel : ViewModel() {
                 ReservaApiService.retrofitService.actualizarReserva(id, reserva)
                 reservaUiState = ReservaUiState.Success("Reserva actualizada con éxito")
             } catch (e: Exception) {
-                reservaUiState = ReservaUiState.Error
+                reservaUiState = ReservaUiState.Error("Error al actualizar la reserva: ${e.message}")
             }
         }
     }
@@ -71,10 +76,9 @@ class ReservaViewModel : ViewModel() {
                 ReservaApiService.retrofitService.eliminarReserva(id)
                 reservaUiState = ReservaUiState.Success("Reserva eliminada con éxito")
             } catch (e: Exception) {
-                reservaUiState = ReservaUiState.Error
+                reservaUiState = ReservaUiState.Error("Error al eliminar la reserva: ${e.message}")
             }
         }
     }
 
 }
-

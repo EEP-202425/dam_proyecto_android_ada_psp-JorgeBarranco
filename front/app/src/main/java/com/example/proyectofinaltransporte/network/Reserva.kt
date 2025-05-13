@@ -8,8 +8,9 @@ import java.time.LocalDate
 
 @Serializable
 class Reserva (
-    val id : Long,
-    @Contextual val fechaHora : LocalDate,
-    val asiento : String,
-    val ruta : Ruta,
+    val id: Long? = null,
+    val fechaHora: String,
+    val asiento: Int,
+    val ruta: Ruta,
+    val vehiculo: Vehiculo,
 )

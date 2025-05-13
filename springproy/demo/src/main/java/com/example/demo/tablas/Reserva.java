@@ -1,13 +1,17 @@
 package com.example.demo.tablas;
 
-import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,16 +21,22 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "vehiculo_id", referencedColumnName = "id")
     private Vehiculo vehiculo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    private Ruta ruta;
+	private Ruta ruta;
 	
-	private LocalDateTime fechaHora;
+	private String fechaHora;
+	
     private int asiento;
     
-    public Reserva(Long id, Ruta ruta, Vehiculo vehiculo, LocalDateTime fechaHora, int asiento) {
+    public Reserva() {
+    	
+    }
+    
+    public Reserva(Long id, Ruta ruta,Vehiculo vehiculo, String fechaHora, int asiento) {
     	this.id = id;
     	this.ruta = ruta;
     	this.vehiculo = vehiculo;
@@ -47,10 +57,10 @@ public class Reserva {
 	public void setRuta(Ruta ruta) {
 		this.ruta = ruta;
 	}
-	public LocalDateTime getFechaHora() {
+	public String getFechaHora() {
 		return fechaHora;
 	}
-	public void setFechaHora(LocalDateTime fechaHora) {
+	public void setFechaHora(String fechaHora) {
 		this.fechaHora = fechaHora;
 	}
 	public int getAsiento() {
