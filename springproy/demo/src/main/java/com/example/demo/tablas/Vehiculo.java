@@ -22,6 +22,10 @@ public class Vehiculo {
 	
     private String tipo;
     
+    public Vehiculo() {
+    	
+    }
+    
     public Vehiculo(Long id, String tipo) {
     	this.id = id;
     	this.tipo = tipo;
