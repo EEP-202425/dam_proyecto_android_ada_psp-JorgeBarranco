@@ -19,15 +19,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.proyectofinaltransporte.network.Usuario
 
 @Composable
 fun PantallaLoging(
     modifier: Modifier,
-    botonLog: () -> Unit
+    botonLog: (Usuario) -> Unit
 ) {
-    var nombre by  remember { mutableStateOf("") }
-    var email by  remember { mutableStateOf("") }
-    var password by  remember { mutableStateOf("") }
+    var nombreUsuario by  remember { mutableStateOf("") }
+    var emailUsuario by  remember { mutableStateOf("") }
+    var passwordUsuario by  remember { mutableStateOf("") }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -38,22 +39,22 @@ fun PantallaLoging(
         Text(text = "INICIE SESIÓN")
 
         OutlinedTextField(
-            value = nombre,
-            onValueChange = { nombre = it },
+            value = nombreUsuario,
+            onValueChange = { nombreUsuario = it },
             label = { Text("Nombre: ") },
             modifier = Modifier.width(300.dp)
         )
 
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
+            value = emailUsuario,
+            onValueChange = { emailUsuario = it },
             label = { Text("Email: ") },
             modifier = Modifier.width(300.dp)
         )
 
         OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
+            value = passwordUsuario,
+            onValueChange = { passwordUsuario = it },
             label = { Text("Contraseña: ") },
             modifier = Modifier.width(300.dp)
         )
@@ -61,7 +62,14 @@ fun PantallaLoging(
         Spacer(Modifier.height(10.dp))
 
         Button(
-            onClick = botonLog,
+            onClick = {
+                val usuario = Usuario(
+                    nombre = nombreUsuario,
+                    email = emailUsuario,
+                    password = passwordUsuario
+                )
+                botonLog(usuario)
+            },
             modifier = Modifier.width(150.dp)
         ) {
             Text("Guardar")
